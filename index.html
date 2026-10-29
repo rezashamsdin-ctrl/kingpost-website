@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>کینگ‌پست | KINGPOST — اتصال به سامانه پست مرکزی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f4ff; --bg2:#ffffff; --card:#ffffff; --card2:#f7f9ff;
+  --blue:#1e4fff; --pastel:#8b3dff; --pink:#f43f8e; --crimson:#b3123f; --yellow:#ffc400;
+  --line:rgba(35,60,130,.12); --line2:rgba(35,60,130,.2);
+  --amber:#1e4fff; --orange:#8b3dff; --cyan:#1e4fff; --green:#16a34a;
+  --text:#17233f; --muted:#5b6b8f; --muted2:#8b98b8;
+  --grad:linear-gradient(120deg,#1e4fff,#8b3dff 50%,#f43f8e);
+  --radius:20px;
+  --shadow:0 24px 60px -22px rgba(30,79,255,.32);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Vazirmatn',Tahoma,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.9}
+::selection{background:#2f6bff;color:#fff}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{width:min(1180px,92%);margin-inline:auto}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* ---------- header ---------- */
+header{position:fixed;inset-inline:0;top:0;z-index:90;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  background:rgba(255,255,255,.85);border-bottom:1px solid var(--line)}
+.hd-in{display:flex;align-items:center;gap:26px;height:72px}
+.logo{display:flex;align-items:center;gap:11px;font-weight:900;font-size:1.25rem;letter-spacing:.5px}
+.logo-mark{width:40px;height:40px;border-radius:12px;background:var(--grad);display:grid;place-items:center;
+  box-shadow:0 8px 22px -6px rgba(246,167,35,.55);transform:rotate(-6deg)}
+.logo-mark svg{width:24px;height:24px;stroke:#fff}
+.logo small{display:block;font-size:.68rem;font-weight:400;color:var(--muted);line-height:1.2}
+nav.main{display:flex;gap:4px;margin-inline-start:auto}
+nav.main a{padding:9px 15px;border-radius:12px;font-size:.93rem;color:var(--muted);transition:.25s;font-weight:500}
+nav.main a:hover,nav.main a.on{color:var(--text);background:rgba(30,79,255,.09)}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 28px;border-radius:15px;font-weight:800;font-size:.95rem;
+  cursor:pointer;border:1px solid transparent;transition:.28s;font-family:inherit}
+.btn-p{background:var(--grad);color:#fff;box-shadow:0 12px 30px -10px rgba(30,79,255,.6)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 18px 38px -10px rgba(124,58,237,.55)}
+.btn-g{background:rgba(30,79,255,.07);border-color:var(--line2);color:var(--text)}
+.btn-g:hover{background:rgba(30,79,255,.14);transform:translateY(-2px)}
+.btn-sm{padding:10px 20px;font-size:.85rem;border-radius:12px}
+.burger{display:none;background:none;border:1px solid var(--line2);border-radius:10px;color:var(--text);
+  font-size:1.3rem;padding:6px 12px;cursor:pointer;margin-inline-start:auto}
+/* ---------- views ---------- */
+.view{display:none}
+.view.on{display:block;animation:vin .55s cubic-bezier(.22,.8,.3,1)}
+@keyframes vin{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;padding:130px 0 70px}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 90% 65% at 50% 42%,transparent 55%,rgba(242,244,255,.7) 100%);pointer-events:none}
+.hero-in{position:relative;z-index:2;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:9px;padding:8px 18px;border-radius:99px;font-size:.82rem;
+  background:rgba(30,79,255,.08);border:1px solid rgba(30,79,255,.3);color:#2f6bff;font-weight:600;margin-bottom:26px}
+.badge .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.35}}
+.hero h1{font-size:clamp(2rem,5.4vw,3.9rem);font-weight:900;line-height:1.5;margin-bottom:18px}
+.hero p.sub{color:var(--muted);font-size:clamp(1rem,2vw,1.25rem);max-width:640px;margin:0 auto 36px}
+.cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:56px}
+.hero-stats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.hstat{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:16px;padding:14px 26px;min-width:150px;backdrop-filter:blur(8px)}
+.hstat b{display:block;font-size:1.5rem;font-weight:900}
+.hstat span{font-size:.8rem;color:var(--muted)}
+.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:var(--muted2);font-size:.75rem;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:8px}
+.mouse{width:24px;height:38px;border:2px solid var(--muted2);border-radius:14px;position:relative}
+.mouse::after{content:"";position:absolute;top:7px;left:50%;width:4px;height:8px;margin-left:-2px;border-radius:4px;background:var(--amber);animation:wheel 1.6s infinite}
+@keyframes wheel{60%{transform:translateY(12px);opacity:0}100%{transform:translateY(12px);opacity:0}}
+/* ---------- sections ---------- */
+section{padding:96px 0;position:relative}
+.sec-head{text-align:center;max-width:640px;margin:0 auto 54px}
+.kicker{display:inline-block;font-size:.8rem;font-weight:700;color:#2f6bff;letter-spacing:1px;margin-bottom:12px;
+  padding:6px 16px;border-radius:99px;background:rgba(30,79,255,.09);border:1px solid rgba(30,79,255,.25)}
+.sec-head h2{font-size:clamp(1.5rem,3.4vw,2.4rem);font-weight:900;margin-bottom:12px}
+.sec-head p{color:var(--muted)}
+/* reveal */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,.8,.3,1)}
+.rv.in{opacity:1;transform:none}
+/* features */
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.fcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:34px 24px;transition:transform .18s ease-out,border-color .3s,box-shadow .3s;will-change:transform;position:relative;overflow:hidden;box-shadow:0 10px 30px -18px rgba(30,79,255,.25)}
+.fcard::before{content:"";position:absolute;inset:0;background:radial-gradient(420px 200px at var(--mx,50%) var(--my,0%),rgba(30,79,255,.13),transparent 65%);opacity:0;transition:.3s;pointer-events:none}
+.fcard:hover::before{opacity:1}
+.fcard:hover{border-color:rgba(30,79,255,.45);box-shadow:var(--shadow)}
+.fico{width:58px;height:58px;border-radius:17px;background:rgba(30,79,255,.1);border:1px solid rgba(30,79,255,.28);
+  display:grid;place-items:center;margin-bottom:20px}
+.fico svg{width:28px;height:28px;stroke:var(--amber);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fcard h3{font-size:1.08rem;font-weight:800;margin-bottom:8px}
+.fcard p{font-size:.88rem;color:var(--muted)}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative}
+.steps::before{content:"";position:absolute;top:44px;right:11%;left:11%;height:2px;
+  background:repeating-linear-gradient(90deg,#2f6bff 0 12px,transparent 12px 24px);opacity:.35}
+.step{text-align:center;position:relative;padding:0 8px}
+.snum{width:88px;height:88px;margin:0 auto 20px;border-radius:50%;background:#fff;border:2px solid rgba(30,79,255,.45);
+  display:grid;place-items:center;font-size:1.7rem;font-weight:900;color:#2f6bff;position:relative;z-index:1;
+  box-shadow:0 0 0 10px var(--bg),0 14px 34px -10px rgba(30,79,255,.4)}
+.step h3{font-size:1.05rem;font-weight:800;margin-bottom:6px}
+.step p{font-size:.86rem;color:var(--muted)}
+/* api widget */
+.api-card{background:#fff;border:1px solid var(--line2);border-radius:26px;
+  padding:44px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;box-shadow:var(--shadow);overflow:hidden;position:relative}
+.api-card::after{content:"";position:absolute;top:-120px;left:-120px;width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,rgba(30,79,255,.14),transparent 70%);pointer-events:none}
+.api-info h3{font-size:1.4rem;font-weight:900;margin-bottom:10px}
+.api-info p{color:var(--muted);font-size:.93rem;margin-bottom:24px}
+.status-row{display:flex;align-items:center;gap:12px;background:#f4f6ff;border:1px solid var(--line);
+  border-radius:14px;padding:14px 18px;margin-bottom:20px;font-size:.9rem}
+.status-dot{width:12px;height:12px;border-radius:50%;background:var(--muted2);flex-shrink:0}
+.status-dot.ok{background:var(--green);box-shadow:0 0 14px var(--green);animation:blink 1.4s infinite}
+.status-dot.work{background:var(--amber);box-shadow:0 0 14px var(--amber);animation:blink .5s infinite}
+.barcode-box{background:#fff;border-radius:16px;padding:26px 22px;text-align:center;color:#111}
+.bars{display:flex;align-items:flex-end;justify-content:center;gap:3px;height:86px;margin-bottom:14px;direction:ltr}
+.bars i{display:block;background:#111;border-radius:1px}
+.barcode-num{font-family:monospace;letter-spacing:3px;font-size:.95rem;font-weight:700}
+.barcode-cap{font-size:.75rem;color:#555;margin-top:6px}
+/* pricing */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:24px;padding:38px 30px;
+  display:flex;flex-direction:column;transition:transform .18s ease-out,box-shadow .3s;position:relative;box-shadow:0 10px 30px -18px rgba(30,79,255,.25)}
+.pcard.hot{border:2px solid var(--crimson);transform:scale(1.03)}
+.pcard.hot:hover{box-shadow:0 30px 70px -22px rgba(164,19,60,.4)}
+.ptag{position:absolute;top:-14px;right:28px;background:var(--grad);color:#fff;font-size:.75rem;font-weight:800;padding:5px 16px;border-radius:99px}
+.pcard h3{font-size:1.2rem;font-weight:900;margin-bottom:4px}
+.pcard .per{font-size:.8rem;color:var(--muted2);margin-bottom:18px}
+.pprice{font-size:2.1rem;font-weight:900;margin-bottom:4px}
+.pprice small{font-size:.9rem;font-weight:500;color:var(--muted)}
+.plist{list-style:none;margin:24px 0 30px;flex:1}
+.plist li{padding:9px 0;border-bottom:1px dashed rgba(35,60,130,.12);font-size:.9rem;color:var(--muted);display:flex;gap:10px;align-items:center}
+.plist li::before{content:"✓";color:var(--green);font-weight:900;flex-shrink:0}
+/* shop */
+.chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.chip{padding:9px 22px;border-radius:99px;border:1px solid var(--line2);background:#fff;font-size:.87rem;
+  cursor:pointer;transition:.25s;color:var(--muted);font-family:inherit;font-weight:600}
+.chip:hover{border-color:#2f6bff;color:var(--text)}
+.chip.on{background:var(--grad);color:#fff;border-color:transparent;font-weight:800}
+.pd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.pd{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;transition:transform .2s ease-out,box-shadow .3s,border-color .3s;cursor:pointer;box-shadow:0 10px 26px -18px rgba(30,79,255,.3)}
+.pd:hover{border-color:rgba(30,79,255,.5);box-shadow:var(--shadow)}
+.pd-img{aspect-ratio:1;background:#eef1fb;display:grid;place-items:center;overflow:hidden}
+.pd-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.pd:hover .pd-img img{transform:scale(1.07)}
+.pd-body{padding:18px}
+.pd-cat{font-size:.72rem;color:var(--crimson);font-weight:700;margin-bottom:6px}
+.pd-name{font-size:.92rem;font-weight:700;line-height:1.7;min-height:3.2em;margin-bottom:10px}
+.pd-foot{display:flex;align-items:center;justify-content:space-between}
+.pd-price{font-weight:900;font-size:1.02rem}
+.pd-price small{font-weight:400;color:var(--muted2);font-size:.75rem}
+.pd-add{width:40px;height:40px;border-radius:12px;border:1px solid rgba(30,79,255,.4);background:rgba(30,79,255,.08);
+  color:#2f6bff;font-size:1.3rem;cursor:pointer;transition:.25s;font-family:inherit;line-height:1}
+.pd-add:hover{background:var(--grad);color:#fff}
+/* edu banner */
+.edu{background:linear-gradient(120deg,#e9efff,#f8f4ff);border:1px solid rgba(30,79,255,.28);border-radius:28px;
+  padding:54px;display:grid;grid-template-columns:1.4fr 1fr;gap:36px;align-items:center;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.edu::before{content:"";position:absolute;top:-100px;right:-100px;width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(183,156,255,.35),transparent 70%)}
+.edu h2{font-size:1.7rem;font-weight:900;margin-bottom:12px}
+.edu p{color:var(--muted);margin-bottom:26px}
+.edu-art{display:flex;gap:12px;justify-content:center}
+.book{width:86px;height:120px;border-radius:10px;background:#fff;border:1px solid var(--line2);
+  display:grid;place-items:center;font-weight:900;font-size:1.4rem;color:#2f6bff;box-shadow:var(--shadow);
+  transform:perspective(500px) rotateY(-14deg);transition:.35s}
+.book:nth-child(2){transform:perspective(500px) rotateY(0deg) translateY(-10px)}
+.book:nth-child(3){transform:perspective(500px) rotateY(14deg)}
+.edu-art:hover .book{transform:perspective(500px) rotateY(0)}
+/* contact */
+.cform{max-width:560px;margin:0 auto;background:#fff;border:1px solid var(--line);
+  border-radius:24px;padding:40px;box-shadow:var(--shadow)}
+.cform input,.cform textarea{width:100%;background:#f4f6ff;border:1px solid var(--line2);border-radius:13px;
+  padding:13px 18px;color:var(--text);font-family:inherit;font-size:.93rem;margin-bottom:14px;transition:.25s}
+.cform input:focus,.cform textarea:focus{outline:none;border-color:#2f6bff;box-shadow:0 0 0 3px rgba(30,79,255,.15)}
+.cform textarea{min-height:120px;resize:vertical}
+/* footer */
+footer{border-top:1px solid var(--line);padding:56px 0 30px;background:#fff}
+.ft{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;margin-bottom:40px}
+.ft p{color:var(--muted);font-size:.88rem;margin-top:12px;max-width:340px}
+.ft h4{font-size:.95rem;font-weight:800;margin-bottom:16px}
+.ft a{display:block;color:var(--muted);font-size:.87rem;padding:5px 0;transition:.2s}
+.ft a:hover{color:var(--amber)}
+.copy{text-align:center;color:var(--muted2);font-size:.78rem;border-top:1px solid var(--line);padding-top:24px}
+/* ---------- hero v3 : gooten style ---------- */
+.hero3{background:linear-gradient(180deg,#e9edff 0%,#f4f1ff 55%,var(--bg) 100%);min-height:108svh}
+.blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:.55;animation:blobf 12s ease-in-out infinite;pointer-events:none}
+.b1{width:520px;height:520px;background:#a3bcff;top:-140px;right:-120px}
+.b2{width:460px;height:460px;background:var(--pastel);bottom:-160px;left:-120px;animation-delay:6s}
+@keyframes blobf{50%{transform:translate(46px,34px) scale(1.12)}}
+.marquee{position:absolute;left:0;right:0;overflow:hidden;pointer-events:none;direction:ltr;z-index:1}
+#mq1{top:11%}#mq2{top:40%}#mq3{top:69%}
+.mq-track{display:flex;width:max-content;animation:mq 40s linear infinite}
+.mq-track.rev{animation:mqr 48s linear infinite}
+@keyframes mq{to{transform:translateX(-50%)}}
+@keyframes mqr{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.mq-card{flex:0 0 auto;width:148px;margin-right:18px;background:#fff;border-radius:18px;padding:10px;
+  box-shadow:0 16px 34px -16px rgba(30,79,255,.35);border:1px solid rgba(35,60,130,.08)}
+.mq-card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;background:#eef1fb}
+.mq-card span{display:block;font-size:.68rem;color:var(--muted);text-align:center;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hero3 .hero-in{position:relative;z-index:2}
+.glass-box{background:rgba(255,255,255,.62);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,.95);border-radius:32px;padding:54px 46px;max-width:640px;margin:0 auto;text-align:center;
+  box-shadow:0 44px 100px -32px rgba(30,79,255,.5),inset 0 1px 0 #fff;animation:boxfloat 6s ease-in-out infinite}
+@keyframes boxfloat{50%{transform:translateY(-9px)}}
+.glass-box h1{font-size:clamp(1.9rem,5vw,3.1rem);font-weight:900;color:#1c3fd8;line-height:1.65;margin-bottom:6px}
+.glass-box h1 span{color:var(--crimson)}
+.g-en{letter-spacing:5px;font-weight:800;color:var(--crimson);font-size:clamp(.8rem,2vw,.95rem);margin-bottom:14px;direction:ltr}
+.glass-box p{color:var(--muted);margin-bottom:28px;font-size:.98rem}
+.g-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cat-keys{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.cat-key{padding:11px 24px;border-radius:16px;border:1px solid var(--line2);background:rgba(255,255,255,.75);font-family:inherit;
+  font-size:.88rem;font-weight:700;color:var(--text);cursor:pointer;transition:.25s;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.cat-key:hover{background:var(--grad);border-color:transparent;transform:translateY(-3px);color:#fff}
+/* family side pictures */
+.side-pics{position:absolute;inset:0;z-index:2;pointer-events:none}
+.side-pic{position:absolute;top:46%;width:208px;background:#fff;padding:10px 10px 12px;border-radius:22px;
+  box-shadow:0 30px 60px -20px rgba(30,79,255,.45);border:1px solid var(--line2);animation:sidefloat 7s ease-in-out infinite}
+.side-pic img{border-radius:14px;aspect-ratio:4/5;object-fit:cover;width:100%}
+.side-pic span{display:block;text-align:center;font-size:.76rem;font-weight:700;color:var(--muted);margin-top:8px}
+.side-pic:first-child{right:1.5%;transform:rotate(4deg)}
+.side-pic:last-child{left:1.5%;transform:rotate(-4deg);animation-delay:3.5s}
+@keyframes sidefloat{50%{margin-top:-16px}}
+@media(max-width:1100px){
+  .side-pics{position:static;display:flex;gap:14px;justify-content:center;margin-top:26px}
+  .side-pic{position:static;width:158px;animation:none}
+  .side-pic:first-child{transform:rotate(-3deg)}
+  .side-pic:last-child{transform:rotate(3deg)}
+}
+/* ---------- auth + three main buttons ---------- */
+.hbtn{padding:10px 22px;border-radius:14px;font-weight:800;font-size:.9rem;color:#fff;background:var(--c);
+  border:none;cursor:pointer;font-family:inherit;box-shadow:0 8px 20px -8px var(--c);transition:.25s}
+.hbtn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.user-chip{font-size:.8rem;font-weight:700;color:var(--muted);background:#f4f6ff;border:1px solid var(--line2);
+  padding:9px 16px;border-radius:99px;white-space:nowrap}
+.big-btn{padding:17px 34px;font-size:1.05rem;border-radius:18px;color:#fff;font-weight:800;border:none;cursor:pointer;
+  font-family:inherit;transition:.28s;box-shadow:0 16px 34px -12px rgba(30,79,255,.5)}
+.big-btn:hover{transform:translateY(-3px) scale(1.03);filter:brightness(1.07)}
+.hero-note{text-align:center;color:var(--muted);font-size:.85rem;margin-top:22px}
+.auth-box{max-width:440px;padding:44px 38px;text-align:center}
+.auth-ico{width:72px;height:72px;border-radius:22px;margin:0 auto 18px;display:grid;place-items:center;color:#fff;font-size:2rem}
+.auth-box h3{font-size:1.3rem;font-weight:900;margin-bottom:6px}
+.auth-desc{color:var(--muted);font-size:.9rem;margin-bottom:22px}
+.auth-steps{display:flex;gap:8px;justify-content:center;margin-bottom:26px}
+.as{font-size:.75rem;color:var(--muted2);padding:6px 14px;border-radius:99px;background:#f4f6ff}
+.as.on{color:#fff;background:var(--auth,#1e4fff);font-weight:700}
+.auth-box input{width:100%;background:#f4f6ff;border:1.5px solid var(--line2);border-radius:14px;padding:14px 18px;
+  font-family:inherit;font-size:1.05rem;text-align:center;letter-spacing:2px;margin-bottom:16px;color:var(--text)}
+.auth-box input:focus{outline:none;border-color:var(--auth,#1e4fff);box-shadow:0 0 0 3px rgba(30,79,255,.12)}
+.auth-btn{width:100%;background:var(--auth,#1e4fff);color:#fff;padding:15px;border-radius:14px;
+  font-weight:800;font-size:1rem;border:none;cursor:pointer;font-family:inherit;transition:.25s}
+.auth-btn:hover{filter:brightness(1.08)}
+.auth-link{background:none;border:none;color:var(--muted);font-family:inherit;font-size:.82rem;cursor:pointer;margin-top:14px}
+.auth-ok{font-size:3.2rem;margin-bottom:10px}
+.mnav .hbtn{width:100%;margin-bottom:10px}
+@media(max-width:640px){.big-btn{padding:14px 22px;font-size:.95rem}.g-btns{gap:10px}}
+/* bestsellers */
+.best-row{display:flex;gap:16px;overflow-x:auto;padding:10px 4px 26px;scroll-snap-type:x mandatory}
+.best-row::-webkit-scrollbar{height:8px}
+.best-row::-webkit-scrollbar-thumb{background:var(--grad);border-radius:99px}
+.best-row::-webkit-scrollbar-track{background:rgba(35,60,130,.08);border-radius:99px}
+.best-row .pd{min-width:252px;scroll-snap-align:start}
+@media(max-width:640px){
+  .mq-card{width:108px;margin-right:12px}
+  #mq1{top:8%}#mq2{top:40%}#mq3{top:72%}
+  .glass-box{padding:26px 18px;border-radius:22px;max-width:88%;background:rgba(255,255,255,.5)}
+  .glass-box h1{font-size:1.45rem}
+  .glass-box p{font-size:.85rem;margin-bottom:20px}
+  .g-btns .btn{padding:10px 18px;font-size:.82rem}
+  .hero3{min-height:112svh}
+  .cat-keys{margin-top:26px}
+  .cat-key{padding:9px 16px;font-size:.78rem}
+}
+/* modal + toast */
+.modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.on{display:flex}
+.modal-bg{position:absolute;inset:0;background:rgba(23,35,63,.55);backdrop-filter:blur(8px)}
+.modal-box{position:relative;background:#fff;border:1px solid var(--line2);border-radius:24px;
+  max-width:860px;width:100%;max-height:90vh;overflow:auto;animation:vin .4s cubic-bezier(.22,.8,.3,1)}
+.m-close{position:absolute;top:14px;left:14px;width:38px;height:38px;border-radius:12px;border:1px solid var(--line2);
+  background:#f4f6ff;color:var(--text);font-size:1.1rem;cursor:pointer;z-index:2}
+.qv{display:grid;grid-template-columns:1fr 1fr}
+.qv-img{background:#eef1fb;min-height:340px;display:grid;place-items:center}
+.qv-img img{width:100%;height:100%;object-fit:cover}
+.qv-body{padding:38px 32px}
+.qv-body h3{font-size:1.3rem;font-weight:900;margin:8px 0 14px;line-height:1.7}
+.qv-body p{color:var(--muted);font-size:.9rem;margin-bottom:22px}
+.qv-price{font-size:1.7rem;font-weight:900;margin-bottom:22px}
+.qv-price small{font-size:.85rem;color:var(--muted2);font-weight:400}
+.ch-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px}
+.ch{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:.82rem;
+  display:flex;gap:9px;align-items:center;box-shadow:0 8px 20px -14px rgba(30,79,255,.3)}
+.ch b{color:#2f6bff}
+#toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,120px);background:#fff;border:1px solid rgba(30,79,255,.5);
+  color:var(--text);padding:14px 28px;border-radius:16px;font-size:.9rem;z-index:200;transition:.4s cubic-bezier(.22,.8,.3,1);
+  box-shadow:var(--shadow);max-width:90%}
+#toast.on{transform:translate(-50%,0)}
+@media(max-width:1020px){.fgrid{grid-template-columns:repeat(2,1fr)}.pd-grid{grid-template-columns:repeat(3,1fr)}.steps{grid-template-columns:repeat(2,1fr)}.steps::before{display:none}.pgrid{grid-template-columns:1fr;max-width:480px;margin-inline:auto}.api-card,.edu{grid-template-columns:1fr}.qv{grid-template-columns:1fr}nav.main{display:none}.burger{display:block}}
+@media(max-width:640px){.pd-grid{grid-template-columns:repeat(2,1fr)}.fgrid{grid-template-columns:1fr}.api-card,.edu{padding:30px 22px}.cform{padding:28px 20px}.ft{grid-template-columns:1fr}}
+.mnav{display:none;position:fixed;top:72px;inset-inline:0;z-index:89;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line);padding:14px 4%}
+.mnav.on{display:block}
+.mnav a{display:block;padding:12px 10px;border-bottom:1px solid var(--line);color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap hd-in">
+    <a class="logo" href="#/" data-nav="home">
+      <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#1a1005" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/><path d="M3.5 8.5L12 13l8.5-4.5M12 13v8"/></svg></span>
+      <span>KINGPOST<small>کینگ‌پست</small></span>
+    </a>
+    <nav class="main">
+      <button class="hbtn" style="--c:#1e4fff" onclick="openAuth('parcel')">ارسال مرسولات</button>
+      <button class="hbtn" style="--c:#8b3dff" onclick="openAuth('shop')">فروشگاه</button>
+      <button class="hbtn" style="--c:#f43f8e" onclick="openAuth('edu')">آموزش</button>
+      <span class="user-chip" id="userChip" style="display:none"></span>
+    </nav>
+    <button class="burger" id="burger" aria-label="منو">☰</button>
+  </div>
+</header>
+<div class="mnav" id="mnav">
+  <button class="hbtn" style="--c:#1e4fff" onclick="openAuth('parcel')">ارسال مرسولات</button>
+  <button class="hbtn" style="--c:#8b3dff" onclick="openAuth('shop')">فروشگاه</button>
+  <button class="hbtn" style="--c:#f43f8e" onclick="openAuth('edu')">آموزش</button>
+</div>
+
+<!-- ================= HOME ================= -->
+<div class="view on" id="view-home">
+  <div class="hero hero3">
+    <div class="blob b1"></div><div class="blob b2"></div>
+    <div class="marquee" id="mq1"><div class="mq-track"></div></div>
+    <div class="marquee" id="mq2"><div class="mq-track rev"></div></div>
+    <div class="marquee" id="mq3"><div class="mq-track"></div></div>
+    <div class="wrap hero-in">
+      <div class="glass-box">
+        <h1>شما بفروشید،<br><span>ما ارسال می‌کنیم</span></h1>
+        <div class="g-en">YOU SELL — WE DELIVER</div>
+        <p>محصولات شما بارکد پستی می‌خورند و بدون نیاز به هیچ اقدامی، به دست مشتری می‌رسند.</p>
+        <div class="g-btns">
+          <button class="big-btn" style="background:#1e4fff" onclick="openAuth('parcel')">ارسال مرسولات</button>
+          <button class="big-btn" style="background:#8b3dff" onclick="openAuth('shop')">فروشگاه</button>
+          <button class="big-btn" style="background:#f43f8e" onclick="openAuth('edu')">آموزش</button>
+        </div>
+      </div>
+      <div class="side-pics">
+        <div class="side-pic"><img src="assets/family-1.webp" alt="خانواده شاد در حال باز کردن بسته‌های پستی"><span>تحویل شاد، هر روز</span></div>
+        <div class="side-pic"><img src="assets/family-2.webp" alt="خانواده پرانرژی با خریدهای اینترنتی"><span>خرید پرانرژی، ارسال سریع</span></div>
+      </div>
+      <div class="hero-note">ثبت‌نام فقط با شماره موبایل — بدون نیاز به ایمیل</div>
+    </div>
+    <div class="scroll-hint"><div class="mouse"></div>اسکرول کنید</div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="kicker">چرا کینگ‌پست؟</span><h2>ساده، سریع و متصل به پست مرکزی</h2></div>
+      <div class="fgrid">
+        <div class="fcard rv" data-tilt><div class="fico"><svg viewBox="0 0 24 24"><path d="M13 2L4.5 13.5H11L10 22l8.5-11.5H12L13 2z"/></svg></div><h3>ثبت آنی</h3><p>با اتصال به API پست، بارکد محصولات در کسری از ثانیه صادر می‌شود.</p></div>
+        <div class="fcard rv" data-tilt><div class="fico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 11-4 0v-.09a1.7 1.7 0 00-1-1.55 1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.09a1.7 1.7 0 001.55-1 1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001-1.55V3a2 2 0 114 0v.09a1.7 1.7 0 001 1.55 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87v.05a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.09a1.7 1.7 0 00-1.51 1z"/></svg></div><h3>کاملاً خودکار</h3><p>نیاز به دخالت انسانی نیست؛ از ثبت تا تحویل به‌صورت اتوماتیک.</p></div>
+        <div class="fcard rv" data-tilt><div class="fico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg></div><h3>مدیریت پنل</h3><p>پنل اختصاصی برای کسب‌وکارها با گزارش‌های لحظه‌ای و جامع.</p></div>
+        <div class="fcard rv" data-tilt><div class="fico"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>امنیت بالا</h3><p>ارتباط رمزنگاری‌شده با پست مرکزی و محافظت از اطلاعات.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" style="background:linear-gradient(180deg,transparent,rgba(255,255,255,.015) 30%,transparent)">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="kicker">نحوه کار</span><h2>در ۴ گام ساده، پست محصولات خود را خودکار کنید</h2></div>
+      <div class="steps">
+        <div class="step rv"><div class="snum">۱</div><h3>ثبت‌نام</h3><p>در KINGPOST ثبت‌نام کرده و پنل خود را فعال کنید.</p></div>
+        <div class="step rv"><div class="snum">۲</div><h3>اتصال API</h3><p>با یک کلیک، به API پست مرکزی متصل شوید.</p></div>
+        <div class="step rv"><div class="snum">۳</div><h3>بارکد خودکار</h3><p>محصولات شما بارکد پستی دریافت می‌کنند.</p></div>
+        <div class="step rv"><div class="snum">۴</div><h3>ارسال خودکار</h3><p>پست به‌طور خودکار مرسوله را به مشتری می‌رساند.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="api">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="kicker">سرویس API</span><h2>وضعیت اتصال به API پست مرکزی</h2><p>وضعیت فعلی سرویس و شبیه‌ساز درخواست بارکد</p></div>
+      <div class="api-card rv">
+        <div class="api-info">
+          <h3>پایش زنده سرویس</h3>
+          <p>اتصال رمزنگاری‌شده به سامانه پست مرکزی؛ صدور بارکد، رهگیری مرسوله و گزارش لحظه‌ای — همه از یک درگاه واحد.</p>
+          <div class="status-row"><span class="status-dot" id="apiDot"></span><span id="apiText">وضعیت: در حال بررسی...</span></div>
+          <button class="btn btn-p btn-sm" id="apiCheck">بررسی وضعیت اتصال</button>
+        </div>
+        <div class="barcode-box" data-tilt>
+          <div class="bars" id="barcode"></div>
+          <div class="barcode-num" id="barcodeNum">IR ···· ···· ··</div>
+          <div class="barcode-cap">نمونه بارکد پستی صادرشده توسط KINGPOST</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="kicker">پنل‌های فروش</span><h2>برای هر اندازه کسب‌وکاری یک پنل مناسب داریم</h2></div>
+      <div class="pgrid">
+        <div class="pcard rv" data-tilt>
+          <h3>استارت‌آپ</h3><div class="per">شروع هوشمندانه</div>
+          <div class="pprice">۲۹۹٬۰۰۰ <small>تومان / ماه</small></div>
+          <ul class="plist"><li>تا ۵۰ مرسوله در ماه</li><li>بارکد خودکار</li><li>پشتیبانی ایمیل</li></ul>
+          <button class="btn btn-g" style="width:100%;justify-content:center" onclick="toast('درخواست پلن استارت‌آپ ثبت شد — کارشناسان ما تماس می‌گیرند')">انتخاب پلن</button>
+        </div>
+        <div class="pcard hot rv" data-tilt>
+          <span class="ptag">پیشنهاد ما</span>
+          <h3>حرفه‌ای</h3><div class="per">رشد بدون توقف</div>
+          <div class="pprice"><span class="grad-text">۶۹۹٬۰۰۰</span> <small>تومان / ماه</small></div>
+          <ul class="plist"><li>تا ۵۰۰ مرسوله در ماه</li><li>بارکد خودکار + رهگیری</li><li>پشتیبانی اولویت‌دار</li><li>گزارش‌های تحلیلی</li></ul>
+          <button class="btn btn-p" style="width:100%;justify-content:center" onclick="toast('درخواست پلن حرفه‌ای ثبت شد — کارشناسان ما تماس می‌گیرند')">انتخاب پلن</button>
+        </div>
+        <div class="pcard rv" data-tilt>
+          <h3>سازمانی</h3><div class="per">قدرت نامحدود</div>
+          <div class="pprice">۱٬۴۹۹٬۰۰۰ <small>تومان / ماه</small></div>
+          <ul class="plist"><li>نامحدود مرسوله</li><li>API اختصاصی</li><li>پشتیبانی ۲۴/۷</li><li>یکپارچه‌سازی با سیستم شما</li></ul>
+          <button class="btn btn-g" style="width:100%;justify-content:center" onclick="toast('درخواست پلن سازمانی ثبت شد — کارشناسان ما تماس می‌گیرند')">انتخاب پلن</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="shopPrev">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="kicker">پیشنهاد ویژه</span><h2>پرفروش‌ترین‌های <span class="grad-text">KINGPOST</span></h2><p>منتخب مشتریان — بکشید تا همه را ببینید</p></div>
+      <div class="best-row" id="bestRow"></div>
+      <div style="text-align:center;margin-top:30px" class="rv"><button class="btn btn-g" data-nav="shop">مشاهده همه محصولات فروشگاه</button></div>
+    </div>
+  </section>
+
+  <section id="eduSec">
+    <div class="wrap">
+      <div class="edu rv">
+        <div>
+          <span class="kicker" style="color:var(--cyan);border-color:rgba(63,201,236,.3);background:rgba(63,201,236,.09)">بخش آموزش</span>
+          <h2>آموزش تعاملی علوم، به‌زبان بچه‌ها</h2>
+          <p>۱۳ فصل کتاب علوم چهارم دبستان — از «زنگ علوم» تا «زیستگاه» — به‌صورت داستان‌های تعاملی با تصویرسازی، آزمون و نمره. یادگیری که بچه‌ها دوستش دارند.</p>
+          <button class="btn btn-p" onclick="openAuth('edu')">ورود به بخش آموزش</button>
+        </div>
+        <div class="edu-art"><div class="book">۴</div><div class="book">۳</div><div class="book">۲</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="kicker">تماس با ما</span><h2>برای مشاوره و خرید پنل با ما در ارتباط باشید</h2></div>
+      <form class="cform rv" onsubmit="event.preventDefault();toast('پیام شما ثبت شد — به‌زودی پاسخ می‌دهیم');this.reset()">
+        <input required placeholder="نام و نام خانوادگی">
+        <input required placeholder="شماره موبایل" inputmode="tel">
+        <textarea placeholder="متن پیام..."></textarea>
+        <button class="btn btn-p" style="width:100%;justify-content:center">ارسال پیام</button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- ================= SHOP ================= -->
+<div class="view" id="view-shop">
+  <section style="padding:130px 0 40px">
+    <div class="wrap">
+      <div class="sec-head rv in"><span class="kicker">فروشگاه</span><h2>فروشگاه <span class="grad-text">KINGPOST</span></h2><p>گجت‌های هوشمند و پوشیدنی منتخب</p></div>
+      <div class="chips" id="chips"></div>
+      <div class="pd-grid" id="shopGrid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= EDU ================= -->
+<div class="view" id="view-edu">
+  <section style="padding:130px 0 60px">
+    <div class="wrap">
+      <div class="sec-head rv in"><span class="kicker">بخش آموزش</span><h2>علوم چهارم دبستان، <span class="grad-text">داستان‌محور</span></h2><p>۱۳ فصل کتاب درسی به‌صورت قصه‌های تعاملی با آزمون پایانی</p></div>
+      <div class="ch-list" id="chList" style="grid-template-columns:repeat(3,1fr)"></div>
+      <div style="text-align:center;margin-top:44px"><button class="btn btn-p" onclick="openAuth('edu')">شروع یادگیری</button></div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="ft">
+      <div>
+        <a class="logo" href="#/" data-nav="home"><span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#1a1005" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/><path d="M3.5 8.5L12 13l8.5-4.5M12 13v8"/></svg></span><span>KINGPOST</span></a>
+        <p>اتصال کسب‌وکار شما به سامانه پست مرکزی؛ بارکد خودکار، ارسال خودکار، فروشگاه گجت‌های هوشمند.</p>
+      </div>
+      <div><h4>بخش‌های اصلی</h4><a href="javascript:void(0)" onclick="openAuth('parcel')">ارسال مرسولات</a><a href="javascript:void(0)" onclick="openAuth('shop')">فروشگاه</a><a href="javascript:void(0)" onclick="openAuth('edu')">آموزش</a></div>
+      <div><h4>خدمات</h4><a href="#api" data-nav="home" data-scroll="api">سامانه ارسال پستی</a><a href="#pricing" data-nav="home" data-scroll="pricing">تعرفه‌ها</a><a href="#contact" data-nav="home" data-scroll="contact">تماس با ما</a></div>
+    </div>
+    <div class="copy">© ۱۴۰۵ کینگ‌پست — تمامی حقوق محفوظ است.</div>
+  </div>
+</footer>
+
+<div class="modal" id="modal"><div class="modal-bg" onclick="closeModal()"></div><div class="modal-box"><button class="m-close" onclick="closeModal()">✕</button><div id="modalBody"></div></div></div>
+<div class="modal" id="authModal"><div class="modal-bg" onclick="closeAuth()"></div>
+  <div class="modal-box auth-box" id="authBox">
+    <button class="m-close" onclick="closeAuth()">✕</button>
+    <div id="authMain">
+      <div class="auth-ico" id="authIco">📦</div>
+      <h3 id="authTitle">ورود به ارسال مرسولات</h3>
+      <div class="auth-steps"><span class="as on" id="as1">۱ · شماره موبایل</span><span class="as" id="as2">۲ · کد تأیید</span></div>
+      <div id="authStep1">
+        <p class="auth-desc">برای ادامه، شماره موبایل خود را وارد کنید</p>
+        <input id="authPhone" inputmode="tel" maxlength="11" placeholder="۰۹۱۲۳۴۵۶۷۸۹">
+        <button class="auth-btn" onclick="authSend()">ارسال کد تأیید</button>
+      </div>
+      <div id="authStep2" style="display:none">
+        <p class="auth-desc">کد ۵ رقمی پیامک‌شده به <b id="authPhoneShow"></b> را وارد کنید</p>
+        <input id="authCode" inputmode="numeric" maxlength="5" placeholder="–––––">
+        <button class="auth-btn" onclick="authVerify()">تأیید و ورود</button>
+        <button class="auth-link" id="authResend" onclick="authResend()">ارسال مجدد کد (<span id="authTimer">60</span>)</button>
+      </div>
+    </div>
+    <div id="authDone" style="display:none">
+      <div class="auth-ok">🎉</div>
+      <h3>خوش آمدید!</h3>
+      <p class="auth-desc">ثبت‌نام شما با موفقیت انجام شد</p>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+<script>
+const PRODUCTS=[{"name": "عینک هوشمند صوتی ایکس او مدل XO-E9", "cat": "عینک هوشمند", "price": "۳٬۵۲۰٬۰۰۰", "img": "assets/p-xo-e9.jpg"}, {"name": "عینک هوشمند صوتی پرووان مدل PSG41", "cat": "عینک هوشمند", "price": "۳٬۱۶۰٬۰۰۰", "img": "assets/p-psg41.jpg"}, {"name": "عینک هوشمند گرین لاین مدل اوربانیک GL-SG11", "cat": "عینک هوشمند", "price": "۴٬۶۱۰٬۰۰۰", "img": "assets/p-urbanic.jpg"}, {"name": "ساعت هوشمند میبرو مدل Lite 3 Pro", "cat": "ساعت هوشمند", "price": "۱۱٬۹۵۰٬۰۰۰", "img": "assets/p-mibro.jpg"}, {"name": "مچ‌بند هوشمند شیائومی مدل بند ۹ اکتیو", "cat": "بند هوشمند", "price": "۵٬۴۹۰٬۰۰۰", "img": "assets/p-band9.jpg"}, {"name": "کلید هوشمند تک‌پل لمسی تویا", "cat": "خانه هوشمند", "price": "۲٬۷۳۰٬۰۰۰", "img": "assets/p-tuya.jpg"}, {"name": "عینک هوشمند زیناتور مدل Gen2 Circle", "cat": "عینک هوشمند", "price": "۲٬۷۶۰٬۰۰۰", "img": "assets/p-zinatore.jpg"}, {"name": "عینک هوشمند صوتی گرین لاین مدل Paris 2", "cat": "عینک هوشمند", "price": "۳٬۹۷۰٬۰۰۰", "img": "assets/p-paris2.jpg"}, {"name": "عینک هوشمند گرین لاین مدل سیدنی GL-SG10", "cat": "عینک هوشمند", "price": "۴٬۰۳۰٬۰۰۰", "img": "assets/p-sydney.jpg"}, {"name": "عینک هوشمند گرین لاین مدل هلسینکی GL-SG7", "cat": "عینک هوشمند", "price": "۳٬۲۳۰٬۰۰۰", "img": "assets/p-helsinki.jpg"}, {"name": "عینک هوشمند صوتی ایکس او مدل XO-E15", "cat": "عینک هوشمند", "price": "۴٬۳۷۰٬۰۰۰", "img": "assets/p-xoe15.jpg"}];
+/* ============ helpers ============ */
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+let toastT;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2600)}
+
+
+/* ============ SPA routing ============ */
+const VN={home:'view-home',shop:'view-shop',edu:'view-edu'};
+let cur='home';
+function go(name,scrollId){
+  if(!VN[name])name='home';cur=name;
+  $$('.view').forEach(v=>v.classList.remove('on'));
+  $('#'+VN[name]).classList.add('on');
+  $$('nav.main a').forEach(a=>a.classList.toggle('on',a.dataset.nav===name));
+  $('#mnav').classList.remove('on');
+  if(location.hash!=='#/'+name)history.replaceState(null,'','#/'+name);
+  requestAnimationFrame(()=>{$$('#'+VN[name]+' .rv').forEach(el=>io.observe(el));});
+  if(scrollId)setTimeout(()=>{const el=document.getElementById(scrollId);if(el)el.scrollIntoView({behavior:'smooth'});},80);
+  else window.scrollTo({top:0});
+}
+function route(){const h=(location.hash||'#/').replace('#/','')||'home';go(VN[h]?h:'home');}
+addEventListener('hashchange',route);
+document.addEventListener('click',e=>{
+  const a=e.target.closest('[data-nav]');if(!a)return;e.preventDefault();
+  go(a.dataset.nav,a.dataset.scroll||null);
+});
+$('#burger').onclick=()=>$('#mnav').classList.toggle('on');
+
+/* ============ reveal on scroll ============ */
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}}),{threshold:.12});
+$$('.rv').forEach(el=>io.observe(el));
+/* safety net: never leave a section invisible (full-page renders, IO quirks) */
+function rvSweep(){$$('.rv:not(.in)').forEach(el=>{const r=el.getBoundingClientRect();if(r.top<innerHeight*1.8&&r.bottom>-40)el.classList.add('in');});}
+addEventListener('scroll',()=>requestAnimationFrame(rvSweep),{passive:true});
+setTimeout(rvSweep,700);setTimeout(rvSweep,2200);
+setTimeout(()=>$$('.rv:not(.in)').forEach(el=>el.classList.add('in')),4500);
+
+/* ============ 3D tilt ============ */
+$$('[data-tilt]').forEach(el=>{
+  el.addEventListener('pointermove',e=>{
+    const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    el.style.transform=`perspective(900px) rotateX(${(-y*9).toFixed(2)}deg) rotateY(${(x*11).toFixed(2)}deg) translateY(-4px)`;
+    el.style.setProperty('--mx',(x*100+50)+'%');el.style.setProperty('--my',(y*100+50)+'%');
+  });
+  el.addEventListener('pointerleave',()=>{el.style.transform='';});
+});
+
+/* ============ shop ============ */
+const CATS=['همه','عینک هوشمند','ساعت هوشمند','بند هوشمند','خانه هوشمند'];
+let fcat='همه';
+function faNum(n){return n;}
+function cardHTML(p,i){
+  return `<div class="pd rv in" data-tilt onclick="qv(${i})">
+    <div class="pd-img"><img src="${p.img}" alt="${p.name}"></div>
+    <div class="pd-body"><div class="pd-cat">${p.cat}</div><div class="pd-name">${p.name}</div>
+    <div class="pd-foot"><div class="pd-price">${p.price} <small>تومان</small></div>
+    <button class="pd-add" onclick="event.stopPropagation();toast('به‌زودی: افزودن به سبد خرید')">+</button></div></div></div>`;
+}
+function renderShop(){
+  const list=PRODUCTS.map((p,i)=>({p,i})).filter(({p})=>fcat==='همه'||p.cat===fcat);
+  $('#shopGrid').innerHTML=list.map(({p,i})=>cardHTML(p,i)).join('');
+  $('#bestRow').innerHTML=PRODUCTS.map((p)=>cardHTML(p,PRODUCTS.indexOf(p))).join('');
+  bindTilt('#shopGrid');
+}
+/* ============ hero v3 : category keys + product marquee ============ */
+function bindTilt(sel){
+  $$(sel+' [data-tilt]').forEach(el=>{
+    if(el._tilt)return;el._tilt=1;
+    el.addEventListener('pointermove',e=>{
+      const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      el.style.transform=`perspective(900px) rotateX(${(-y*8).toFixed(2)}deg) rotateY(${(x*10).toFixed(2)}deg) translateY(-5px)`;
+    });
+    el.addEventListener('pointerleave',()=>{el.style.transform='';});
+  });
+}
+function renderChips(){
+  $('#chips').innerHTML=CATS.map(c=>`<button class="chip${c===fcat?' on':''}" onclick="setCat('${c}')">${c}</button>`).join('');
+}
+function setCat(c){fcat=c;renderChips();renderShop();}
+function qv(i){
+  const p=PRODUCTS[i];
+  $('#modalBody').innerHTML=`<div class="qv">
+    <div class="qv-img"><img src="${p.img}" alt="${p.name}"></div>
+    <div class="qv-body"><div class="pd-cat">${p.cat}</div><h3>${p.name}</h3>
+    <p>منتخب فروشگاه KINGPOST — ضمانت اصالت کالا، ارسال سریع و پشتیبانی پس از فروش.</p>
+    <div class="qv-price">${p.price} <small>تومان</small></div>
+    <button class="btn btn-p" style="width:100%;justify-content:center" onclick="toast('به‌زودی: ثبت سفارش فعال می‌شود')">افزودن به سبد خرید</button></div></div>`;
+  $('#modal').classList.add('on');document.body.style.overflow='hidden';
+}
+function closeModal(){$('#modal').classList.remove('on');document.body.style.overflow='';}
+addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeAuth();}});
+
+/* ============ barcode + api widget ============ */
+function drawBarcode(){
+  const b=$('#barcode');b.innerHTML='';let s='';
+  for(let i=0;i<42;i++){const w=1+Math.floor(Math.random()*4);b.innerHTML+=`<i style="width:${w}px;height:${52+Math.floor(Math.random()*34)}px"></i>`;s+=Math.floor(Math.random()*10);}
+  $('#barcodeNum').textContent='IR '+s.slice(0,4)+' '+s.slice(4,8)+' '+s.slice(8,10);
+}
+drawBarcode();
+$('#apiCheck').onclick=function(){
+  const d=$('#apiDot'),t=$('#apiText');d.className='status-dot work';t.textContent='وضعیت: در حال بررسی اتصال...';this.disabled=true;
+  setTimeout(()=>{d.className='status-dot ok';const ms=90+Math.floor(Math.random()*90);
+    t.innerHTML=`وضعیت: <b style="color:var(--green)">متصل</b> — تأخیر ${ms}ms`;drawBarcode();this.disabled=false;
+    toast('اتصال به API پست مرکزی برقرار است');},1400);
+};
+
+/* ============ edu chapters ============ */
+const CHS=['۱ · زنگ علوم','۲ · مخلوط‌ها در زندگی','۳ · انرژی، نیاز هر روز ما','۴ · انرژی الکتریکی','۵ · گرما و ماده','۶ · سنگ‌ها','۷ · آهن‌ربا در زندگی','۸ · آسمان در شب','۹ · بدن ما (۱)','۱۰ · بدن ما (۲)','۱۱ · بی‌مهره‌ها','۱۲ · گوناگونی گیاهان','۱۳ · زیستگاه'];
+$('#chList').innerHTML=CHS.map((c,i)=>`<div class="ch rv in"><b>${c.split(' · ')[0]}</b> ${c.split(' · ')[1]}</div>`).join('');
+
+/* ============ auth : phone -> SMS code -> register ============ */
+const AUTH={
+ parcel:{t:'ارسال مرسولات',c:'#1e4fff',i:'\u{1F4E6}',go:()=>go('home','api')},
+ shop:{t:'فروشگاه',c:'#8b3dff',i:'\u{1F6CD}',go:()=>go('shop')},
+ edu:{t:'آموزش',c:'#f43f8e',i:'\u{1F4DA}',go:()=>go('edu')}
+};
+let authDest='parcel',authTimerI=null;
+function fa2en(s){return s.replace(/[\u06F0-\u06F9]/g,d=>'\u06F0\u06F1\u06F2\u06F3\u06F4\u06F5\u06F6\u06F7\u06F8\u06F9'.indexOf(d));}
+function openAuth(d){
+  authDest=d;const A=AUTH[d],box=$('#authBox');
+  box.style.setProperty('--auth',A.c);
+  const ic=$('#authIco');ic.textContent=A.i;ic.style.background=A.c;ic.style.boxShadow=`0 14px 30px -10px ${A.c}`;
+  $('#authTitle').textContent='ورود به '+A.t;
+  $('#authMain').style.display='';$('#authDone').style.display='none';
+  $('#authStep1').style.display='';$('#authStep2').style.display='none';
+  $('#as1').classList.add('on');$('#as2').classList.remove('on');
+  $('#authModal').classList.add('on');document.body.style.overflow='hidden';
+  setTimeout(()=>$('#authPhone').focus(),350);
+}
+function closeAuth(){$('#authModal').classList.remove('on');if(!$('#modal').classList.contains('on'))document.body.style.overflow='';clearInterval(authTimerI);}
+function authSend(){
+  const v=fa2en($('#authPhone').value.trim());
+  if(!/^09\d{9}$/.test(v)){toast('شماره موبایل معتبر وارد کنید (مثل 09123456789)');return;}
+  $('#authPhoneShow').textContent=v;
+  $('#authStep1').style.display='none';$('#authStep2').style.display='';
+  $('#as1').classList.remove('on');$('#as2').classList.add('on');
+  startTimer();toast('کد تأیید پیامک شد (نسخه نمایشی)');
+  setTimeout(()=>$('#authCode').focus(),350);
+}
+function startTimer(){clearInterval(authTimerI);let s=60;const el=$('#authTimer'),rs=$('#authResend');
+  rs.style.opacity=.4;rs.style.pointerEvents='none';
+  authTimerI=setInterval(()=>{s--;el.textContent=s;if(s<=0){clearInterval(authTimerI);rs.style.opacity=1;rs.style.pointerEvents='';el.textContent='60';}},1000);}
+function authResend(){startTimer();toast('کد جدید پیامک شد (نسخه نمایشی)');}
+function authVerify(){
+  const v=fa2en($('#authCode').value.trim());
+  if(!/^\d{5}$/.test(v)){toast('کد ۵ رقمی را کامل وارد کنید');return;}
+  const phone=$('#authPhoneShow').textContent;
+  $('#authMain').style.display='none';$('#authDone').style.display='';
+  const chip=$('#userChip');chip.style.display='';chip.textContent='\u{1F464} '+phone.slice(0,4)+'\u2022\u2022\u2022'+phone.slice(-4);
+  setTimeout(()=>{closeAuth();AUTH[authDest].go();toast('خوش آمدید! وارد «'+AUTH[authDest].t+'» شدید');},1400);
+}
+/* ============ hero marquee : product cards behind the glass box ============ */
+function buildMarquee(){
+  const card=p=>`<div class="mq-card"><img src="${p.img}" alt="${p.name}"><span>${p.name}</span></div>`;
+  const rows=[ [0,1,2,3,4,5], [6,7,8,9,10,0], [3,4,5,6,7,8] ];
+  rows.forEach((idx,k)=>{
+    const track=document.querySelector('#mq'+(k+1)+' .mq-track');
+    if(!track)return;
+    const seq=idx.map(i=>card(PRODUCTS[i])).join('');
+    track.innerHTML=seq+seq; /* duplicated for the seamless -50% loop */
+  });
+}
+renderChips();renderShop();buildMarquee();route();
+
+</script>
+</body>
+</html>
